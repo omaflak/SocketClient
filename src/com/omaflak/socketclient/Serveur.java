@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Serveur {
 	private int port;
@@ -15,7 +16,7 @@ public class Serveur {
 		this.port = port;
 		for (int i=0 ; i<10 ; i++){
 			Group<Message> group = new Group<Message>();
-			group.setName("Group "+1);
+			group.setName("Group "+i);
 			groups.add(group);
 		}
 	}
@@ -37,10 +38,12 @@ public class Serveur {
 			while(continuer){
 				try {
 					Socket sock = server.accept();
-					System.out.println("ACDEPT OK");
+					System.out.println("ACCEPT OK");
 					SocketClient<Message> socket = new SocketClient<Message>(sock);
 					System.out.println("New client connected");
-					int index = chooseGroup(socket);
+					Random r = new Random();
+					int index = r.nextInt(groups.size()-1);
+					System.out.println("Chatroom : "+index);
 					groups.get(index).addPerson(socket);
 				} catch (IOException e) {
 					System.out.println("Error accept socket : "+e.getMessage());
@@ -48,36 +51,5 @@ public class Serveur {
 			}
 		}
 	}
-	
-	public int chooseGroup(SocketClient<Message> socket){
-		Listener listener = new Listener();
-		socket.setOnReceiveListener(listener);
-		boolean continuer=true;
-		
-		while(continuer){
-			if(listener.getId()!=null)
-				continuer=false;
-		}
-		
-		int id = Integer.valueOf(listener.getId());
-		socket.removeOnReceiveMessageListener();
 
-		if(id<groups.size())
-			return id;
-		
-		return -1;
-	}
-	
-	class Listener implements SocketClient.OnReceiveMessageListener<Message>{
-		private String id=null;
-		
-		public void OnReceiveMessage(Message message, SocketClient<Message> sender) {
-			id=message.getMessage();
-			System.out.println(message.getSender()+" connected on chatroom "+id);
-		}
-		
-		public String getId(){
-			return id;
-		}
-	}
 }

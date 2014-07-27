@@ -18,6 +18,7 @@ public class SocketClient<T>{
 	private OnConnectionClosedListener<T> listener2=null;
 	private OnConnectedListener<T> listener3=null;
 	private boolean bool=true;
+	private boolean bool_listener=true;
 
 	SocketClient(String ip, int port){
 		this.ip=ip;
@@ -34,8 +35,8 @@ public class SocketClient<T>{
 	
 	private void connect_private() throws IOException{
 		socket.connect(addr);
-        reader = new ObjectInputStream(socket.getInputStream());
 		writer = new ObjectOutputStream(socket.getOutputStream());
+        reader = new ObjectInputStream(socket.getInputStream());
 	}
 	
 	public void connect() throws IOException, InterruptedException{
@@ -44,10 +45,14 @@ public class SocketClient<T>{
 		thread.join();
 		if(thread.getException()!=null)
 			throw thread.getException();
+		
 		if(listener3!=null)
 			listener3.OnConnected(SocketClient.this);
-		if(listener!=null)
+		
+		if(bool_listener && reader!=null && writer!=null){
 			new Reception().start();
+			bool_listener=false;
+		}
 	}
 	
 	public void disconnect() throws IOException{
@@ -117,10 +122,12 @@ public class SocketClient<T>{
 		public void OnReceiveMessage(T message, SocketClient<T> sender);
 	}
 	
-	public void setOnReceiveListener(OnReceiveMessageListener<T> listener) {
+	public void setOnReceiveMessageListener(OnReceiveMessageListener<T> listener) {
 		this.listener = listener;
-		if(socket.isConnected())
+		if(bool_listener && reader!=null && writer!=null){
 			new Reception().start();
+			bool_listener=false;
+		}
 	}
 	
 	public void removeOnReceiveMessageListener(){

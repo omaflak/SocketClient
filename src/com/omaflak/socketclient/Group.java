@@ -12,8 +12,9 @@ public class Group<T> implements SocketClient.OnReceiveMessageListener<T>, Socke
 
 	public void addPerson(SocketClient<T> socket){
 		clients.add(socket);
-		clients.get(clients.size()-1).setOnReceiveListener(this);
+		clients.get(clients.size()-1).setOnReceiveMessageListener(this);
 		clients.get(clients.size()-1).setOnConnectionClosedListener(this);
+		SystemOut("ADD PERSON!");
 	}
 
 	public void removePerson(SocketClient<T> socket) throws IOException{
