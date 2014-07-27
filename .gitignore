@@ -1,0 +1,7 @@
+.project
+bin/
+.settings/
+src/Main.java
+src/Serveur.java
+src/Group.java
+src/Message.java
