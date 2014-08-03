@@ -70,6 +70,10 @@ public class Group<T> implements SocketClient.OnReceiveMessageListener<T>, Socke
 		System.out.println(name+" > "+message);
 	}
 	
+	public int size(){
+		return clients.size();
+	}
+	
 	// Listener
 	
 	public void OnReceiveMessage(T message, SocketClient<T> sender) {
