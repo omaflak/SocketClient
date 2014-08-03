@@ -68,7 +68,7 @@ Group is a usefull class if you want to make a chat with several conversations.
 		}
     });
     
-3) Add & remove person to the group
+3) Add & remove person
 
     group.addPerson(SocketClient<T> socket);
     group.removePerson(SocketClient<T> socket);
