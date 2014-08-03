@@ -17,7 +17,7 @@ On Eclipse you can easily create a new package and move your files into it by do
     // For exemple if you only want to send strings you declare your client like this :
     SocketClient<String> socket = new SocketClient<String>("ip_address", port);
     // You can also declare it like this :
-    SocketClient<String> socket = new Socket(...);
+    SocketClient<String> socket = new SocketClient<T>(new Socket());
     
 2) Connect the socket
 
@@ -43,3 +43,38 @@ On Eclipse you can easily create a new package and move your files into it by do
 4) Finnaly disconnect the socket with :
 
     socket.disconnect();
+    
+    
+
+Extras: Group class
+============
+
+Group is a usefull class if you want to make a chat with several conversations.
+
+1) First, declare the class as follow: 
+
+    Group<T> group = new Group<T>(); // T still the same as above
+    group.setName("My Group"); // Optional
+    
+2) Set listener
+
+    group.setOnGroupListener(new Group.OnGroupListener<Message>(){
+	public void OnReceiveMessageListener(Group<Message> group, Message message, SocketClient<Message> sender) {
+		// Called when a socket from the group send a message
+	}
+	
+	public void OnConnectionClosedListener(Group<Message> group, SocketClient<Message> socket) {
+		// called when a socket from the group is disconnected
+	}
+    });
+    
+3) Add & remove person to the group
+
+    group.addPerson(SocketClient<T> socket);
+    group.removePerson(SocketClient<T> socket);
+    
+3) Send message to the group
+
+    group.sendMessageToGroup(T message, SocketClient<T> exception); 
+    group.sendMessageToGroup(T message); // is equivalent to sendMessageToGroup(message, null);
+    
