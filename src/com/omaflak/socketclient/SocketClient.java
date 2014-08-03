@@ -14,6 +14,7 @@ public class SocketClient<T>{
 	private ObjectOutputStream writer;
 	private String ip;
 	private int port;
+	private String name="Socket";
 	private OnReceiveMessageListener<T> listener=null;
 	private OnConnectionClosedListener<T> listener2=null;
 	private OnConnectedListener<T> listener3=null;
@@ -114,6 +115,15 @@ public class SocketClient<T>{
 				}
 			}
 		}
+	}
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	// interface

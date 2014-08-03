@@ -9,7 +9,8 @@ import com.omaflak.socketclient.SocketClient;
 public class Group<T> implements SocketClient.OnReceiveMessageListener<T>, SocketClient.OnConnectionClosedListener<T>{
 	private List<SocketClient<T>> clients = new ArrayList<SocketClient<T>>();
 	private String name="SocketClient Group";
-
+	private OnGroupListener<T> OnGroupListener=null;
+	
 	public void addPerson(SocketClient<T> socket){
 		clients.add(socket);
 		clients.get(clients.size()-1).setOnReceiveMessageListener(this);
@@ -41,21 +42,7 @@ public class Group<T> implements SocketClient.OnReceiveMessageListener<T>, Socke
 		return clients.get(index);
 	}
 	
-	public void OnConnectionClosed(SocketClient<T> socket) {
-		for (int i=0 ; i<clients.size() ; i++){
-			if(clients.get(i).equals(socket)){
-				clients.remove(i);
-				SystemOut("client "+i+" removed");
-			}
-		}
-	}
-	
-	public void OnReceiveMessage(T message, SocketClient<T> sender) {
-		SystemOut("message "+message);
-		sendMessageToAll(message, sender);
-	}
-	
-	private void sendMessageToAll(T message, SocketClient<T> exception){
+	public void sendMessageToGroup(T message, SocketClient<T> exception){
 		for (int i=0 ; i<clients.size() ; i++){
 			if(!clients.get(i).equals(exception)){
 				try {
@@ -68,7 +55,7 @@ public class Group<T> implements SocketClient.OnReceiveMessageListener<T>, Socke
 	}
 	
 	public void sendMessageToGroup(T message){
-		sendMessageToAll(message, null);
+		sendMessageToGroup(message, null);
 	}
 	
 	public String getName() {
@@ -81,5 +68,35 @@ public class Group<T> implements SocketClient.OnReceiveMessageListener<T>, Socke
 	
 	public void SystemOut(String message){
 		System.out.println(name+" > "+message);
+	}
+	
+	// Listener
+	
+	public void OnReceiveMessage(T message, SocketClient<T> sender) {
+		if(OnGroupListener!=null)
+			OnGroupListener.OnReceiveMessageListener(this, message, sender);
+		SystemOut("message "+message);
+	}
+	
+	public void OnConnectionClosed(SocketClient<T> socket) {
+		for (int i=0 ; i<clients.size() ; i++){
+			if(clients.get(i).equals(socket)){
+				clients.remove(i);
+				SystemOut("client "+i+" removed");
+			}
+		}
+		if(OnGroupListener!=null)
+			OnGroupListener.OnConnectionClosedListener(this, socket);
+	}
+	
+	// Interface
+	
+	public interface OnGroupListener<T>{
+		public void OnReceiveMessageListener(Group<T> group, T message, SocketClient<T> sender);
+		public void OnConnectionClosedListener(Group<T> group, SocketClient<T> socket);
+	}
+	
+	public void setOnGroupListener(OnGroupListener<T> listener){
+		this.OnGroupListener=listener;
 	}
 }

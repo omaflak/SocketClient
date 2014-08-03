@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Serveur {
+public class Serveur implements Group.OnGroupListener<Message>{
 	private int port;
 	private boolean continuer=true;
 	private ServerSocket server;
@@ -17,6 +17,7 @@ public class Serveur {
 		for (int i=0 ; i<10 ; i++){
 			Group<Message> group = new Group<Message>();
 			group.setName("Group "+i);
+			group.setOnGroupListener(this);
 			groups.add(group);
 		}
 	}
@@ -38,18 +39,23 @@ public class Serveur {
 			while(continuer){
 				try {
 					Socket sock = server.accept();
-					System.out.println("ACCEPT OK");
 					SocketClient<Message> socket = new SocketClient<Message>(sock);
-					System.out.println("New client connected");
 					Random r = new Random();
 					int index = r.nextInt(groups.size()-1);
-					System.out.println("Chatroom : "+index);
 					groups.get(index).addPerson(socket);
 				} catch (IOException e) {
 					System.out.println("Error accept socket : "+e.getMessage());
 				}
 			}
 		}
+	}
+
+	public void OnReceiveMessageListener(Group<Message> group, Message message, SocketClient<Message> sender) {
+		group.sendMessageToGroup(message, sender);
+	}
+
+	public void OnConnectionClosedListener(Group<Message> group, SocketClient<Message> socket) {
+		group.sendMessageToGroup(new Message(socket.getName(), "disconnected!"));
 	}
 
 }
