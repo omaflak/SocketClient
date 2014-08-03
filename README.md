@@ -59,13 +59,13 @@ Group is a usefull class if you want to make a chat with several conversations.
 2) Set listener
 
     group.setOnGroupListener(new Group.OnGroupListener<Message>(){
-	public void OnReceiveMessageListener(Group<Message> group, Message message, SocketClient<Message> sender) {
-		// Called when a socket from the group send a message
-	}
-	
-	public void OnConnectionClosedListener(Group<Message> group, SocketClient<Message> socket) {
-		// called when a socket from the group is disconnected
-	}
+		public void OnReceiveMessageListener(Group<Message> group, Message message, SocketClient<Message> sender) {
+			// Called when a socket from the group send a message
+		}
+		
+		public void OnConnectionClosedListener(Group<Message> group, SocketClient<Message> socket) {
+			// called when a socket from the group is disconnected
+		}
     });
     
 3) Add & remove person to the group
