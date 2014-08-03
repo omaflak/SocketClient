@@ -21,13 +21,13 @@ public class SocketClient<T>{
 	private boolean bool=true;
 	private boolean bool_listener=true;
 
-	SocketClient(String ip, int port){
+	public SocketClient(String ip, int port){
 		this.ip=ip;
 		this.port=port;
 		addr = new InetSocketAddress(ip, port);
 	}
 	
-	SocketClient(Socket socket) throws IOException{
+	public SocketClient(Socket socket) throws IOException{
 		this.ip=socket.getInetAddress().getHostAddress();
 		this.socket=socket;
 		writer = new ObjectOutputStream(this.socket.getOutputStream());
