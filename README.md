@@ -58,12 +58,12 @@ Group is a usefull class if you want to make a chat with several conversations.
     
 2) Set listener
 
-    group.setOnGroupListener(new Group.OnGroupListener<Message>(){
-		public void OnReceiveMessageListener(Group<Message> group, Message message, SocketClient<Message> sender) {
+    group.setOnGroupListener(new Group.OnGroupListener<T>(){
+		public void OnReceiveMessageListener(Group<T> group, T message, SocketClient<T> sender) {
 			// Called when a socket from the group send a message
 		}
 		
-		public void OnConnectionClosedListener(Group<Message> group, SocketClient<Message> socket) {
+		public void OnConnectionClosedListener(Group<T> group, SocketClient<T> socket) {
 			// called when a socket from the group is disconnected
 		}
     });
