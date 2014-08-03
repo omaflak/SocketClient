@@ -57,5 +57,4 @@ public class Serveur implements Group.OnGroupListener<Message>{
 	public void OnConnectionClosedListener(Group<Message> group, SocketClient<Message> socket) {
 		group.sendMessageToGroup(new Message(socket.getName(), "disconnected!"));
 	}
-
 }
