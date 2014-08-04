@@ -35,6 +35,7 @@ On Eclipse you can easily rename the package by doing this : right click on your
     });
 	
 	// You have also OnConnectionClosedListener<T> to know when the socket is disconnected from the server
+	// And OnConnectedListener<T> to know when the socket is connected to the server. You must set this listener before calling connect() method.
       
 3) Send messages as simple as this :
 
