@@ -50,7 +50,7 @@ On Eclipse you can easily rename the package by doing this : right click on your
 Extras: Group class
 ============
 
-Group is a usefull class if you want to make a chat with several conversations.
+Group is a usefull class if you want to handle several sockets at the same time.
 
 1) First, declare the class as follow: 
 
