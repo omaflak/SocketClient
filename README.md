@@ -16,8 +16,8 @@ On Eclipse you can easily rename the package by doing this : right click on your
     // T is the class name of the objects you want to send via the socket. T must implements Serializable.
     // For example if you only want to send strings you declare your client like this :
     SocketClient<String> socket = new SocketClient<String>("ip_address", port);
-    // You can also declare it like this :
-    SocketClient<String> socket = new SocketClient<T>(new Socket());
+    // The constructor also take a socket as parameter, for example if you're on the server and you're receiving connections, you can do:
+    SocketClient<String> socket = new SocketClient<T>(sever.accept());
     
 2) Connect the socket
 
