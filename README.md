@@ -27,7 +27,7 @@ On Eclipse you can easily rename the package by doing this : right click on your
 3) Set the listener to receive messages :
     
     ...
-    socket.setOnReceiveListener(new SocketClient.OnReceiveMessageListener<T>(){  // T still the same T as above
+    socket.setOnReceiveMessageListener(new SocketClient.OnReceiveMessageListener<T>(){  // T still the same T as above
   		@Override
   		public void OnReceiveMessage(T message, SocketClient<T> sender) {
   			// TODO Auto-generated method stub
