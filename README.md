@@ -5,7 +5,7 @@ Very simple way to use sockets in java. For example you can easily create a chat
 
 /!\ Warning /!\
 
-Before starting, if you are going to use SocketClient to send your custom class, be sure that your class is exactly the same on the client and on the server sides. Even the packages names must be the sames!
+Before starting, if you are going to use SocketClient to send your custom class, be sure that your class is exactly the same on the client and on the server sides. Even the packages names must be the same!
 On Eclipse you can easily rename the package by doing this : right click on your package > Refactor > Rename...
 
 /!\ Warning /!\
